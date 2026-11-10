@@ -13,6 +13,7 @@ On GitHub in [`xiaomi17-pudding-dev`](https://github.com/xiaomi17-pudding-dev), 
 | Repository | Contents |
 |---|---|
 | `local_manifests_pudding` | This repo: `repo` manifests and build instructions |
+| `twrp_device_xiaomi_pudding` | TWRP device tree for the Xiaomi 17, by antocorvo3000 (original history kept) |
 | `device_xiaomi_sm8850-common` | Common device tree for the Xiaomi 17 series (SM8850) |
 | `device_xiaomi_pudding` | Device tree for the Xiaomi 17 |
 | [`vendor_xiaomi_sm8850-common`](https://gitlab.com/xiaomi17-pudding-dev/vendor_xiaomi_sm8850-common) (GitLab) | Proprietary files from the stock vendor partition |
@@ -28,6 +29,7 @@ proprietary files are hosted on GitLab because of their size (Git LFS).
 
 | Stage | Status | Manifest |
 |---|---|---|
+| TWRP 3.7.1_16 (`twrp_sm8750_thales`, recovery) | built, in testing | [`twrp/`](twrp) |
 | LineageOS 24.0 (`lineage_pudding`, branch `lineage-24.0`) | in progress, not yet booted | _coming_ |
 | PixelOS | not started | _coming_ |
 
@@ -45,6 +47,27 @@ repo sync -c --no-tags -j$(nproc)
 source build/envsetup.sh
 # lunch / build target per stage
 ```
+
+### TWRP
+
+```bash
+repo init -u https://github.com/TWRP-Test/platform_manifest_twrp_aosp.git -b twrp-16.0 --depth=1
+mkdir -p .repo/local_manifests
+for f in pins restore-minimal pudding; do
+  curl -o .repo/local_manifests/$f.xml \
+    https://raw.githubusercontent.com/xiaomi17-pudding-dev/local_manifests_pudding/main/twrp/$f.xml
+done
+repo sync -c --no-tags -j$(nproc)
+patch -p1 -d system/vold < device/xiaomi/sm8750_thales/patches/0001-vold-fix-synthetic-password-gcm.patch
+export ALLOW_MISSING_DEPENDENCIES=true
+source build/envsetup.sh
+lunch twrp_sm8750_thales-bp2a-eng
+m recoveryimage
+```
+
+`pins.xml` pins the TWRP-Test projects to their state of 2026-07-12, `restore-minimal.xml`
+adds back AOSP projects the recovery build needs, `pudding.xml` adds the device tree.
+Flash `out/target/product/sm8750_thales/recovery.img` to `recovery_a` / `recovery_b`.
 
 ## Principles
 

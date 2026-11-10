@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TWRP-Test twrp-16.0 projects pinned to their state of 2026-07-12. -->
+<manifest>
+  <extend-project name="android_bootable_recovery" revision="6bd8134ec8ff4cb29eb25797cbb20796f8455204" />
+  <extend-project name="android_build" revision="f490f0230a24ec66f27c88a9374fbeeffa6b9c27" />
+  <extend-project name="android_build_soong" revision="91bdc79cffb29d35b2d46a33204c061c3e7ed4f7" />
+  <extend-project name="android_bionic" revision="99926c766ef7f121950611f047dba4769a25226c" />
+  <extend-project name="android_cts" revision="e70f92f52c9830ee8f93d89d032e2b14765c5941" />
+  <extend-project name="android_external_icu" revision="6fefff4e125c1b1a332fbce6d0d2da323b203865" />
+  <extend-project name="android_external_libxml2" revision="97b8b0bcb00b062c418758d40db2208fe04ab0c7" />
+  <extend-project name="android_external_sqlite" revision="0cffd67e0aeca8e7427c5398142ed8edf0e29ce1" />
+  <extend-project name="android_external_libchrome" revision="ea5e82b2c1b9e741903be0dcdaf66af60b23c951" />
+  <extend-project name="android_external_zstd" revision="7a8e6fea5ce69cdd3c7ed0d18d6480d7770503eb" />
+  <extend-project name="android_frameworks_hardware_interfaces" revision="51d97a046f77b7dc3531cc6bb99407539d4e29b6" />
+  <extend-project name="android_hardware_interfaces" revision="185265a4c2dccc7f6770ea08eddd36a15b2035b6" />
+  <extend-project name="android_system_core" revision="1f21da0fc4300c5802da8f4aad885875da950032" />
+  <extend-project name="android_system_libhidl" revision="9bb79519173ff86773dfd144172bcd789fc88e01" />
+  <extend-project name="android_system_sepolicy" revision="bb100837941584a7d0f8c2969eeaebf9c56da8fc" />
+  <extend-project name="android_system_security" revision="d614e274b585a67e80d3d3fbc3a6e9f695998f78" />
+  <extend-project name="android_system_update_engine" revision="b451120ede75393948160631f699c419f427a692" />
+  <extend-project name="android_system_vold" revision="953de9608eb78380b3c4e39e801c2bc0af7dbddc" />
+  <extend-project name="android_system_extras" revision="e7a43388bdbb2774b955ed5c7fca1fa83fd61c64" />
+  <extend-project name="android_vendor_twrp" revision="f5b908030195b41271ff39f1c707bb716271c478" />
+  <extend-project name="android_external_libmicrohttpd" revision="37408f6e22f1fe935129e11f1a5c9a5091b4b97a" />
+  <extend-project name="android_se_omapi" revision="637d1911a25ee1f9ee81fded6979a78074ba646f" />
+  <extend-project name="phhusson/vendor_lptools" revision="c8be7de57b80eab61a6f94ec86464a01fb9056f2" />
+  <extend-project name="android_external_bash" revision="1094f161361ad75af92c968da680f2f5b3cf752b" />
+  <extend-project name="android_external_libncurses" revision="cf8d1a3f3b0ab6f9385c3361e1aada7ecc635ad6" />
+  <extend-project name="android_external_nano" revision="690d0aee2b55c3648e4e6d0d70313e6d3bbb97af" />
+  <extend-project name="android_external_ntfs-3g" revision="e2415df401538976fb89aa20370903e0c46e51ff" />
+  <extend-project name="android_prebuilts_tools-lineage" revision="6122a667053a09ca0663fcf2486276bf13814080" />
+  <extend-project name="external_magisk-prebuilt" revision="1e91763f0e216c2a674d018811967e0837b27e0e" />
+  <!-- remove-minimal.xml drops it, but frameworks/av needs system/audio.h. -->
+  <project path="system/media" name="platform/system/media" groups="pdk" />
+  <!-- remove-minimal.xml drops it, but system/media libaudioutils needs libspeexresampler. -->
+  <project path="external/speex" name="platform/external/speex" groups="pdk" />
+  <!-- remove-minimal.xml drops it, but frameworks/av libmedia_midiiowrapper needs libsonivoxwithoutjet. -->
+  <project path="external/sonivox" name="platform/external/sonivox" groups="pdk" />
+</manifest>

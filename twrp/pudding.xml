@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TWRP device tree for the Xiaomi 17 (pudding). -->
+<manifest>
+  <remote name="pudding" fetch="https://github.com/xiaomi17-pudding-dev" />
+  <project path="device/xiaomi/sm8750_thales" name="twrp_device_xiaomi_pudding"
+           remote="pudding" revision="twrp-16.0" />
+</manifest>
