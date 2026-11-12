@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     LineageOS 24.0 for the Xiaomi 17 (pudding).
+     Build instructions: README.md of local_manifests_pudding.
+-->
+<manifest>
+  <remote name="pudding" fetch="https://github.com/xiaomi17-pudding-dev" />
+  <remote name="pudding-gitlab" fetch="https://gitlab.com/xiaomi17-pudding-dev" />
+
+  <!-- Device trees -->
+  <project path="device/xiaomi/pudding" name="device_xiaomi_pudding"
+           remote="pudding" revision="lineage-24.0" />
+  <project path="device/xiaomi/sm8850-common" name="device_xiaomi_sm8850-common"
+           remote="pudding" revision="lineage-24.0" />
+
+  <!-- Prebuilt stock kernel, DTBs, kernel modules and kernel UAPI headers -->
+  <project path="device/xiaomi/pudding-kernel" name="device_xiaomi_pudding-kernel"
+           remote="pudding" revision="lineage-24.0" />
+
+  <!-- Proprietary files from the stock firmware (hosted on GitLab, uses Git LFS) -->
+  <project path="vendor/xiaomi/pudding" name="vendor_xiaomi_pudding"
+           remote="pudding-gitlab" revision="lineage-24.0" />
+  <project path="vendor/xiaomi/sm8850-common" name="vendor_xiaomi_sm8850-common"
+           remote="pudding-gitlab" revision="lineage-24.0" />
+
+  <!-- MIUI camera app of the stock firmware (blobs on GitLab, uses Git LFS) -->
+  <project path="device/xiaomi/miuicamera-pudding" name="device_xiaomi_miuicamera-pudding"
+           remote="pudding" revision="lineage-24.0" />
+  <project path="vendor/xiaomi/miuicamera-pudding" name="vendor_xiaomi_miuicamera-pudding"
+           remote="pudding-gitlab" revision="lineage-24.0" />
+
+  <!-- LineageOS Xiaomi hardware plus the change that adds the ultrasonic fingerprint
+       modules (qcom_us), until it is part of LineageOS -->
+  <project path="hardware/xiaomi" name="android_hardware_xiaomi"
+           remote="pudding" revision="pudding/fingerprint-modules" />
+</manifest>
