@@ -1,10 +1,10 @@
 # Xiaomi 17 (pudding) — local manifests
 
-Start here to build **Android 17 (LineageOS 24.0)** for the
+Start here to build **Android 17 (LineageOS 24.0 or PixelOS 17)** for the
 **Xiaomi 17**, codename **`pudding`** (Qualcomm SM8850 / Snapdragon 8 Elite Gen 5).
 
-> **Status:** LineageOS 24.0 runs with SELinux enforcing; see the LineageOS section for what has
-> been tested on the device. Manifests and build instructions are added here as each stage
+> **Status:** LineageOS 24.0 and PixelOS 17 run with SELinux enforcing; see their sections for
+> what has been tested on the device. Manifests and build instructions are added here as each stage
 > starts working.
 
 ## Repositories
@@ -16,7 +16,7 @@ On GitHub in [`xiaomi17-pudding-dev`](https://github.com/xiaomi17-pudding-dev), 
 | `local_manifests_pudding` | This repo: `repo` manifests and build instructions |
 | `twrp_device_xiaomi_pudding` | TWRP device tree for the Xiaomi 17, by antocorvo3000 (original history kept) |
 | `device_xiaomi_sm8850-common` | Common device tree for the Xiaomi 17 series (SM8850) |
-| `device_xiaomi_pudding` | Device tree for the Xiaomi 17 |
+| `device_xiaomi_pudding` | Device tree for the Xiaomi 17 (branch `lineage-24.0`; `seventeen` adds the PixelOS product) |
 | `device_xiaomi_miuicamera-pudding` | MIUI camera app of the stock firmware, inherited by the device tree |
 | [`vendor_xiaomi_sm8850-common`](https://gitlab.com/xiaomi17-pudding-dev/vendor_xiaomi_sm8850-common) (GitLab) | Proprietary files from the stock vendor partition |
 | [`vendor_xiaomi_pudding`](https://gitlab.com/xiaomi17-pudding-dev/vendor_xiaomi_pudding) (GitLab) | Proprietary files from the stock odm partition (the GitHub repo of the same name only points here) |
@@ -35,6 +35,7 @@ proprietary files are hosted on GitLab because of their size (Git LFS).
 |---|---|---|
 | TWRP 3.7.1_16 (`twrp_sm8750_thales`, recovery) | built, in testing | [`twrp/`](twrp) |
 | LineageOS 24.0 (`lineage_pudding`, branch `lineage-24.0`) | runs, in testing | [`lineage.xml`](lineage.xml) |
+| PixelOS 17 (`custom_pudding`, branch `seventeen` of the device tree) | runs, in testing | [`pixelos.xml`](pixelos.xml) |
 | Other AOSP-based ROMs | not started | _coming_ |
 
 ## Building (once a stage is available)
@@ -108,10 +109,47 @@ Tested on the device (release build, SELinux enforcing):
 | Audio | works |
 | Charging | works |
 
-Not tested yet: calls and mobile data, GPS, NFC and the sensors. Known limitations: no fingerprint unlock with the screen off yet, and only
+Not tested yet on this build: calls and mobile data, GPS, NFC and the sensors (they work on PixelOS with the
+same trees). Known limitations of this build: no fingerprint unlock with the screen off, and only
 units with the Qualcomm ultrasonic fingerprint sensor are supported. The build has no Google
 apps; banking apps that require Play Integrity device integrity will not work on an unlocked
 bootloader.
+
+### PixelOS 17
+
+PixelOS is based on AOSP with the LineageOS hardware support, and ships Google apps. All trees
+are the same as for LineageOS; only the device tree's `seventeen` branch adds the PixelOS
+product (`custom_pudding`).
+
+```bash
+repo init -u https://github.com/PixelOS-AOSP/android_manifest.git -b seventeen --git-lfs
+mkdir -p .repo/local_manifests
+curl -o .repo/local_manifests/pudding.xml \
+  https://raw.githubusercontent.com/xiaomi17-pudding-dev/local_manifests_pudding/seventeen/pixelos.xml
+repo sync -c --no-tags -j$(nproc)
+source build/envsetup.sh
+lunch custom_pudding-cp2a-userdebug
+m pixelos
+```
+
+The OTA package is `out/target/product/pudding/PixelOS_pudding-17.0-<date>.zip`, the recovery
+image `out/target/product/pudding/recovery.img`; install it as described for LineageOS. Coming
+from another ROM, Format data is required.
+
+Tested on the device (release build, SELinux enforcing):
+
+| Feature | Status |
+|---|---|
+| Boot, setup wizard, Google sign-in, Play Store | works |
+| Fingerprint (under-display, also with the screen off), face unlock | works |
+| Double tap to wake, always-on display, adaptive brightness | works |
+| Camera (MIUI camera), Widevine DRM (L1) | works |
+| Wi-Fi, audio, charging, GPS, vibration, auto-rotate | works |
+| Mobile data (LTE), SMS, calls | works |
+| VoLTE (IMS registered over LTE) | works |
+| Wi-Fi calling | available, not tested with a call yet |
+| eSIM (Google's eSIM manager) | opens; profile download not tested yet |
+| Standby | about 0.5 %/h |
 
 ## Principles
 
