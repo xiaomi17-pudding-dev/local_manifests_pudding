@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     Neoteric-OS (Android 17) for the Xiaomi 17 (pudding).
+     Build instructions: README.md of local_manifests_pudding (branch cnb).
+-->
+<manifest>
+  <remote name="pudding" fetch="https://github.com/xiaomi17-pudding-dev" />
+  <remote name="pudding-gitlab" fetch="https://gitlab.com/xiaomi17-pudding-dev" />
+  <remote name="pudding-lineage" fetch="https://github.com/LineageOS" revision="refs/heads/lineage-24.0" />
+
+  <!-- Device trees (branch cnb: the Neoteric-OS product and its build switches) -->
+  <project path="device/xiaomi/pudding" name="device_xiaomi_pudding"
+           remote="pudding" revision="cnb" />
+  <project path="device/xiaomi/sm8850-common" name="device_xiaomi_sm8850-common"
+           remote="pudding" revision="cnb" />
+
+  <!-- Prebuilt stock kernel, DTBs, kernel modules and kernel UAPI headers -->
+  <project path="device/xiaomi/pudding-kernel" name="device_xiaomi_pudding-kernel"
+           remote="pudding" revision="lineage-24.0" />
+
+  <!-- Proprietary files from the stock firmware (hosted on GitLab, uses Git LFS) -->
+  <project path="vendor/xiaomi/pudding" name="vendor_xiaomi_pudding"
+           remote="pudding-gitlab" revision="cnb" />
+  <project path="vendor/xiaomi/sm8850-common" name="vendor_xiaomi_sm8850-common"
+           remote="pudding-gitlab" revision="cnb" />
+
+  <!-- MIUI camera app of the stock firmware (blobs on GitLab, uses Git LFS) -->
+  <project path="device/xiaomi/miuicamera-pudding" name="device_xiaomi_miuicamera-pudding"
+           remote="pudding" revision="lineage-24.0" />
+  <project path="vendor/xiaomi/miuicamera-pudding" name="vendor_xiaomi_miuicamera-pudding"
+           remote="pudding-gitlab" revision="lineage-24.0" />
+
+  <!-- LineageOS Xiaomi hardware plus the change that adds the ultrasonic fingerprint modules -->
+  <project path="hardware/xiaomi" name="android_hardware_xiaomi"
+           remote="pudding" revision="pudding/fingerprint-modules" />
+
+  <!-- LineageOS projects the device trees use that Neoteric-OS does not ship. Neoteric-OS has its
+       own Qualcomm common layer, telephony framework and LineageOS interfaces. -->
+  <!-- LineageOS sepolicy_vndr sm8850, with the powercap sysfs labels left to the Neoteric-OS platform policy -->
+  <project path="device/qcom/sepolicy_vndr/sm8850" name="android_device_qcom_sepolicy_vndr"
+           remote="pudding" revision="pudding/neoteric-powercap" />
+  <project path="hardware/qcom-caf/sm8850/audio/agm" name="android_vendor_qcom_opensource_agm"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/sm8850/audio/graphservices" name="android_vendor_qcom_opensource_audioreach-graphservices"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/sm8850/audio/pal" name="android_vendor_qcom_opensource_arpal-lx"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/sm8850/audio/primary-hal" name="android_hardware_qcom_audio-ar"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/sm8850/data-ipa-cfg-mgr" name="android_vendor_qcom_opensource_data-ipa-cfg-mgr"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/sm8850/dataipa" name="android_vendor_qcom_opensource_dataipa"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/sm8850/display/core" name="android_vendor_qcom_opensource_display-core"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/sm8850/display/hal" name="android_hardware_qcom_display"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/sm8850/display/intf" name="android_vendor_qcom_opensource_display-intf"
+           remote="pudding-lineage" revision="lineage-24.0-caf-sm8850" />
+  <project path="hardware/qcom-caf/thermal" name="android_hardware_qcom_thermal"
+           remote="pudding-lineage" />
+
+  <!-- The stock lights service (odm, vendor.qti.hardware.lights.service) is used; the source
+       build of the same module would clash with it -->
+  <remove-project name="platform/vendor/qcom-opensource/lights" />
+
+  <!-- The device builds the thermal HAL from LineageOS hardware/qcom-caf/thermal; the Neoteric-OS
+       copy defines the same modules. The Wi-Fi HAL is Neoteric-OS hardware/qcom/wlan (it matches its
+       wpa_supplicant) -->
+  <remove-project name="platform/hardware/qcom/thermal" />
+  <!-- Defines init.qti.ufs.rc, which the device ships from its stock copy; nothing else uses it -->
+  <remove-project name="platform/vendor/qcom-opensource/mmc-utils" />
+
+  <!-- LineageOS dataservices: the same CodeLinaro code with the soong namespace the vendor blobs
+       import (librmnetctl) -->
+  <remove-project name="android_vendor_qcom-opensource_dataservices" />
+  <project path="vendor/qcom/opensource/dataservices" name="android_vendor_qcom_opensource_dataservices" remote="pudding-lineage" />
+
+  <!-- LineageOS core-utils-vendor: also installs the vendor JNI library link of the stock CneApp -->
+  <remove-project name="platform/vendor/qcom-opensource/core-utils-vendor" />
+  <project path="vendor/qcom/opensource/core-utils-vendor"
+           name="android_vendor_qcom_opensource_core-utils-vendor" remote="pudding-lineage" />
+
+  <!-- LineageOS EuiccPolicy, required by XiaomiEuicc in hardware/xiaomi -->
+  <project path="packages/apps/EuiccPolicy" name="android_packages_apps_EuiccPolicy" remote="pudding-lineage" />
+
+  <!-- LineageOS touch AIDL interface (hardware/xiaomi implements it); not part of the Neoteric-OS
+       interfaces -->
+  <project path="hardware/lineage/interfaces/touch" name="android_hardware_lineage_interfaces_touch"
+           remote="pudding" revision="lineage-24.0" />
+
+  <!-- Neoteric-OS device/qcom/common, plus the guards of hardware/qcom-caf/sm8850 (canoe) -->
+  <remove-project name="android_device_qcom_common" />
+  <project path="device/qcom/common" name="android_device_qcom_common" remote="neoteric">
+    <linkfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk" />
+    <!-- add guards for CAF repositories -->
+    <linkfile src="os_pickup_sepolicy_vndr.mk" dest="device/qcom/sepolicy_vndr/SEPolicy.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/msm8996/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/msm8996/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/msm8998/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/msm8998/Android.mk" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sdm660/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sdm660/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sdm845/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sdm845/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8150/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sm8150/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8250/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sm8250/Android.bp" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8350/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sm8350/Android.bp" />
+    <linkfile src="os_pickup_audio-ar.mk" dest="hardware/qcom-caf/sm8450/audio/Android.mk" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8450/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sm8450/Android.bp" />
+    <linkfile src="os_pickup_audio-ar.mk" dest="hardware/qcom-caf/sm8550/audio/Android.mk" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8550/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sm8550/Android.bp" />
+    <linkfile src="os_pickup_audio-ar.mk" dest="hardware/qcom-caf/sm8650/audio/Android.mk" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8650/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sm8650/Android.bp" />
+    <linkfile src="os_pickup_audio-ar.mk" dest="hardware/qcom-caf/sm8750/audio/Android.mk" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8750/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sm8750/Android.bp" />
+    <linkfile src="os_pickup_audio-ar.mk" dest="hardware/qcom-caf/sm8850/audio/Android.mk" />
+    <linkfile src="os_pickup.mk" dest="hardware/qcom-caf/sm8850/Android.mk" />
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/sm8850/Android.bp" />
+    <!-- empty namespace for the hardware/qcom-caf/wlan import of the vendor blobs (libcld80211 is global here) -->
+    <linkfile src="os_pickup.bp" dest="hardware/qcom-caf/wlan/Android.bp" />
+  </project>
+
+  <!-- The CodeLinaro webview prebuilt can only be fetched with its full history: use the
+       AOSP one of the same release, shallow -->
+  <remove-project name="platform/external/chromium-webview" />
+  <project path="external/chromium-webview" name="platform/external/chromium-webview"
+           remote="aosp" revision="refs/tags/android-17.0.0_r1" clone-depth="1" />
+</manifest>
