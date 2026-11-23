@@ -148,7 +148,7 @@ Tested on the device (release build, SELinux enforcing):
 | Mobile data (LTE), SMS, calls | works |
 | VoLTE (IMS registered over LTE) | works |
 | Wi-Fi calling | available, not tested with a call yet |
-| eSIM (Google's eSIM manager) | opens; profile download not tested yet |
+| eSIM, next to a physical SIM (Google's eSIM manager; Network & internet → eSIM switches SIM slot 2 between the eSIM and the tray) | works |
 | Standby | about 0.5 %/h |
 
 ## Principles
