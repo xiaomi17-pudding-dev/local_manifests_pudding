@@ -21,7 +21,7 @@ On GitHub in [`xiaomi17-pudding-dev`](https://github.com/xiaomi17-pudding-dev), 
 | [`vendor_xiaomi_sm8850-common`](https://gitlab.com/xiaomi17-pudding-dev/vendor_xiaomi_sm8850-common) (GitLab) | Proprietary files from the stock vendor partition |
 | [`vendor_xiaomi_pudding`](https://gitlab.com/xiaomi17-pudding-dev/vendor_xiaomi_pudding) (GitLab) | Proprietary files from the stock odm partition (the GitHub repo of the same name only points here) |
 | [`vendor_xiaomi_miuicamera-pudding`](https://gitlab.com/xiaomi17-pudding-dev/vendor_xiaomi_miuicamera-pudding) (GitLab) | Proprietary files of the MIUI camera app |
-| `device_xiaomi_pudding-kernel` | Prebuilt stock kernel, DTBs and module lists |
+| `device_xiaomi_pudding-kernel` | GKI kernel and GKI modules built from source (ACK); stock DTBs, DTBO and vendor modules |
 | `android_hardware_xiaomi` | Fork of LineageOS `hardware/xiaomi`; branch `pudding/fingerprint-modules` adds the ultrasonic fingerprint modules |
 | `android_kernel_xiaomi_sm8850` | Xiaomi kernel source (branch `popsicle-w-oss`, unmodified) |
 | `android_kernel_xiaomi_sm8850-devicetrees` | Xiaomi kernel devicetrees (branch `popsicle-w-oss`, unmodified) |
