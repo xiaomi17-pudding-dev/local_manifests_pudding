@@ -142,9 +142,10 @@ Tested on the device (release build, SELinux enforcing):
 |---|---|
 | Boot, setup wizard, Google sign-in, Play Store | works |
 | Fingerprint (under-display, also with the screen off), face unlock | works |
-| Double tap to wake, always-on display, adaptive brightness | works |
+| Double tap and single tap to wake, lift to check phone, always-on display, adaptive brightness | works |
 | Camera (MIUI camera), Widevine DRM (L1) | works |
-| Wi-Fi, audio, charging, GPS, vibration, auto-rotate | works |
+| Wi-Fi, audio, charging, GPS, auto-rotate | works |
+| Vibration (stock Xiaomi haptics) | works |
 | Mobile data (LTE), SMS, calls | works |
 | VoLTE (IMS registered over LTE) | works |
 | Wi-Fi calling | available, not tested with a call yet |
